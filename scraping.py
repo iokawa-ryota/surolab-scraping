@@ -166,8 +166,12 @@ def scrape_page(driver, url, date_formatted):
         df[cols_to_clean] = df[cols_to_clean].apply(lambda col: col.map(clean_numeric))
         
         # 'big-per' 列と 'reg-per' 列を計算して追加
-        df['big-per'] = df['game'] / df['big'] 
-        df['reg-per'] = df['game'] / df['reg']
+        #df['big-per'] = df['game'] / df['big'] 
+        #df['reg-per'] = df['game'] / df['reg']
+        df['big-per'] = df.apply(lambda row: row['game'] / row['big'] if row['big'] != 0 else 0, axis=1)
+        df['reg-per'] = df.apply(lambda row: row['game'] / row['reg'] if row['reg'] != 0 else 0, axis=1)
+
+
         
         # 'reg' と 'total' 列の間に新しい列を挿入
         cols = df.columns.tolist()
